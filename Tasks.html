@@ -200,6 +200,9 @@
         span.className = "close";
         span.appendChild(txt);
         li.appendChild(span);
+        // query1 = SELECT COUNT(*) FROM Tasks;
+        // ALTER TABLE Tasks WHERE Username = (stored username from login)
+        // ADD "task"+query1 text;
 
         for (i = 0; i < close.length; i++) {
             close[i].onclick = function() {
