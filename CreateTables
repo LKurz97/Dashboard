@@ -1,0 +1,19 @@
+CREATE TABLE Information(
+  UserID INT UNIQUE AUTO INCREMENT,
+  UserName text UNIQUE,
+  Email text,
+  Password text,
+  Picture text
+) 
+(Picture is a text as it would be a link to where the image is stored)
+
+CREATE TABLE Photos(
+  UserName text
+) 
+(Photos as a text column woud be added as user adds them not initialised as unknown amount)
+
+CREATE TABLE Tasks(
+  UserName text UNIQUE,
+  Task1 INT
+)
+(One task initialised, others to be added from the site)
