@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sport</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        html {
+            background: url(champs.jpg) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* Style divs */
+        .testDiv {
+            text-align: left;
+            margin: 2%;
+        }
+        a {
+            color: black;
+        }
+
+        /* Style the header */
+        header {
+            text-align: center;
+            font-size: 35px;
+            color: white;
+            opacity: 0.8;
+        }
+
+        .textBox {
+            width: 20%;
+            border-top: 2px;
+            border-left: 2px;
+            border-right: 2px;
+            border-color: white;
+            background-color: rgba(255, 255, 255, 0);
+            padding-top: 5px;
+            color: white;
+        }
+
+        .button {
+            margin-top: 40px;
+            width: 15%;
+            border: 2px solid white;
+            background-color: rgba(255, 255, 255, 0);
+            padding-top: 10px;
+            padding-bottom: 10px;
+            color: white;
+        }
+        .button:hover {
+            background-color: white;
+            color: #0000FF;
+            transition-duration: 1s;
+        }
+
+        /* Responsive layout */
+        @media (max-width: 600px) {
+            nav, article {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        ::placeholder {
+            color: white;
+            font-size: 15px;
+        }
+    </style>
+
+</head>
+<body>
+
+    <script>
+    </script>
+
+    <div class="testDiv">
+        <a href="MainSite.html" style="color: white; text-underline: white">Back</a>
+    </div>
+
+    <header>
+        <h1>Champions League Challenge</h1>
+        <p style="font-size: 20px">Enter a team to see who they beat!</p>
+    </header>
+
+    <div style="text-align: center">
+        <label for="teamBox" style="margin-right: 10px; color: white"><b>Team</b></label>
+        <input type="text" placeholder="Enter Team" id="teamBox" required class="textBox">
+        <button type="submit" class="button" id="button" onclick="Upload()">Check</button>
+    </div>
+
+    <div id="outputDiv" style="text-align: center; color: white">
+        <div id="teams">
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function Upload() {
+            var champsFile = document.getElementById("champsFile");
+            var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+            if (regex.test(champsFile.value.toLowerCase())) {
+                if (typeof (FileReader) != "undefined") {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var table = document.createElement("table");
+                        var rows = e.target.result.split("\n");
+                        for (var i = 0; i < rows.length; i++) {
+                            var row = table.insertRow(-1);
+                            var cells = rows[i].split(",");
+                            for (var j = 0; j < cells.length; j++) {
+                                var cell = row.insertCell(-1);
+                                cell.innerHTML = cells[j];
+                            }
+                        }
+                        var dvCSV = document.getElementById("dvCSV");
+                        dvCSV.innerHTML = "";
+                        dvCSV.appendChild(table);
+                    }
+                    reader.readAsText(champsFile.files[0]);
+                }
+            }
+
+
+                var teamName = document.getElementById("teamBox").value;
+                if($.inArray(teamName, "Champs.csv")) {
+                    document.getElementById("outputDiv").innerHTML = teamName.toUpperCase() + ' beat:';
+                    document.getElementById("teamBox").value = "";
+                    function searchFile(par1, par2) {
+                        var tempArray = [];
+                        for (var i = 1; i < 200; i++) {
+                            if (par1[2][i] === par2) {
+                                if (par1[6][i] === "H") {
+                                    tempArray.push(par1[3][i])
+                                }
+                            }
+                        }
+                        for (var j = 1; j < 200; j++) {
+                            if (par1[3][j] === par2) {
+                                if (par1[6][j] === "A") {
+                                    tempArray.push(par1[2][j])
+                                }
+                            }
+                        }
+                        return tempArray;
+                    }
+                    var output = searchFile("Champs.csv", teamName);
+                    for (var i = 0; i < output.length; i++) {
+                        document.getElementById("teams").innerHTML = output[i] + "<br>";
+                    }
+                }
+                else{
+                    document.getElementById("outputDiv").innerHTML = teamName + " did not compete in the 17/18 Champions League"
+                }
+
+
+
+        }
+    </script>
+    <input type="file" id="champsFile" style="visibility: collapse"/>
+    <input type="button" id="upload" value="Upload" onload="Upload()" style="visibility: collapse" />
+    <div id="dvCSV">
+    </div>
+
+</body>
+</html>
